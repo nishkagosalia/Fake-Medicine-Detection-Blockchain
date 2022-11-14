@@ -78,6 +78,7 @@ const App: () => Node = () => {
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.js</Text> to change this
             Maza hi aa gaya change karke !!!!!!!!!!!
+            Change should come on your vs code
           </Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
