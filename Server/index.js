@@ -29,12 +29,14 @@ app.listen(port, () => {
 const { MongoClient } = require("mongodb");
  
 // Replace the following with your Atlas connection string                                                                                                                                        
-const url = "mongodb+srv://TejanshuMistry:manali123@blockchaincluster.sqmijcg.mongodb.net/?retryWrites=true&w=majority";
+const url = "mongodb+srv://NishkaGosalia:shimla123@blockchaincluster.sqmijcg.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
 
 async function run() {
     try {
         await client.connect();
+        await listDatabases(client);
+        await findMedDetailsBasedOnName(client,"Dolo650")
         console.log("Connected correctly to server");
 
     } catch (err) {
@@ -43,6 +45,24 @@ async function run() {
     finally {
         await client.close();
     }
+}
+
+async function listDatabases(client){
+  databasesList = await client.db().admin().listDatabases();
+
+  console.log("Databases:");
+  databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+};
+
+async function findMedDetailsBasedOnName(client,medname){
+  const result=await client.db("PharmaChain").collection("MedicineDB").findOne({medicineName:medname})
+  if (result) {
+    console.log(`Found a listing in the collection with the name '${medname}':`);
+    console.log(result);
+    console.log(result.cost)
+} else {
+    console.log(`No listings found with the name '${medname}'`);
+}
 }
 
 run().catch(console.dir);
