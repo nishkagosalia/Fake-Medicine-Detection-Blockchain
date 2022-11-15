@@ -29,7 +29,7 @@ app.listen(port, () => {
 const { MongoClient } = require("mongodb");
  
 // Replace the following with your Atlas connection string                                                                                                                                        
-const url = "mongodb+srv://NishkaGosalia:shimla123@blockchaincluster.sqmijcg.mongodb.net/?retryWrites=true&w=majority";
+const url = "mongodb+srv://TejanshuMistry:manali123@blockchaincluster.sqmijcg.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
 
 async function run() {
