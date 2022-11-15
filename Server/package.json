@@ -1,0 +1,24 @@
+{
+  "name": "fake-medicine-detection-blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishkagosalia/Fake-Medicine-Detection-Blockchain.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nishkagosalia/Fake-Medicine-Detection-Blockchain/issues"
+  },
+  "homepage": "https://github.com/nishkagosalia/Fake-Medicine-Detection-Blockchain#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^4.11.0",
+    "mongoose": "^6.7.2"
+  }
+}
