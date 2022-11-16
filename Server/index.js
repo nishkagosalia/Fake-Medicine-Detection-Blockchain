@@ -40,6 +40,7 @@ async function run() {
         await client.connect();
         await listDatabases(client);
         await findMedDetailsBasedOnName(client,"Dolo650")
+        await loginUser("Teju2001","manali123")
         console.log("Connected correctly to server");
 
     } catch (err) {
@@ -71,6 +72,26 @@ async function findMedDetailsBasedOnName(client,medname){
 app.get('/', (req, res) => {
   res.send(result)
 })
+}
+
+
+// try to create a login endpoint
+// the end point will be /login
+
+async function loginUser(username, password){
+  const userDetails = await client.db("PharmaChain").collection("LoginReg").findOne({userName:username, password:password})
+  if (userDetails.userName == username && userDetails.password == password){
+    console.log("Login successful");
+    app.get('/login', (req,res) => {
+      res.send({userName:username, password:password})
+    }) 
+  }
+  else{
+    console.log("Login Failed");
+    app.get('/login',(req,res) => {
+      res.send("Login failed")
+    })
+  }
 }
 
 run().catch(console.dir);
