@@ -14,20 +14,22 @@ import mongoose from 'mongoose';
 
 const App = () => {
   const appId = 'fakemeddetection-rxjtd'; 
-  fetch('http://127.0.0.1:3000/',{method:"GET"})
-      .then(function (response) {
-        // handle success
-        console.log(response)
-        alert(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        // handle error
-        alert(error.message);
-      })
-      .finally(function () {
-        // always executed
-        alert('Finally called');
-      });
+
+    // const response = fetch('http://192.168.1.10:3000/',{method:"GET"});
+    
+    const getMovies = async () => {
+      try {
+       const response = await fetch('http://192.168.1.10:3000/');
+       const json = await response.json();
+       console.log(json);
+     } catch (error) {
+       console.error(error);
+     } finally {
+      
+     }
+   }
+
+   getMovies();
 
   return (
     <SafeAreaView>

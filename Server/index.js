@@ -16,10 +16,13 @@ const express = require('express')
 const app = express()
 const hostname = '127.0.0.1';
 const port = 3000
+// textvariable = {
+//   'tejanshu':'nishka'
+// }
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// app.get('/', (req, res) => {
+//   res.send(textvariable)
+// })
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
@@ -29,7 +32,7 @@ app.listen(port, () => {
 const { MongoClient } = require("mongodb");
  
 // Replace the following with your Atlas connection string                                                                                                                                        
-const url = "mongodb+srv://NishkaGosalia:shimla123@blockchaincluster.sqmijcg.mongodb.net/?retryWrites=true&w=majority";
+const url = "mongodb+srv://TejanshuMistry:manali123@blockchaincluster.sqmijcg.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
 
 async function run() {
@@ -37,6 +40,7 @@ async function run() {
         await client.connect();
         await listDatabases(client);
         await findMedDetailsBasedOnName(client,"Dolo650")
+        await loginUser("Teju2001","manali123")
         console.log("Connected correctly to server");
 
     } catch (err) {
@@ -63,6 +67,31 @@ async function findMedDetailsBasedOnName(client,medname){
 } else {
     console.log(`No listings found with the name '${medname}'`);
 }
+
+
+app.get('/', (req, res) => {
+  res.send(result)
+})
+}
+
+
+// try to create a login endpoint
+// the end point will be /login
+
+async function loginUser(username, password){
+  const userDetails = await client.db("PharmaChain").collection("LoginReg").findOne({userName:username, password:password})
+  if (userDetails.userName == username && userDetails.password == password){
+    console.log("Login successful");
+    app.get('/login', (req,res) => {
+      res.send({userName:username, password:password})
+    }) 
+  }
+  else{
+    console.log("Login Failed");
+    app.get('/login',(req,res) => {
+      res.send("Login failed")
+    })
+  }
 }
 
 run().catch(console.dir);
