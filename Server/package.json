@@ -18,7 +18,11 @@
   "homepage": "https://github.com/nishkagosalia/Fake-Medicine-Detection-Blockchain#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "ganache": "^7.5.0",
+    "ganache-cli": "^6.12.2",
     "mongodb": "^4.11.0",
-    "mongoose": "^6.7.2"
+    "mongoose": "^6.7.2",
+    "web3": "^1.8.1",
+    "web3-eth": "^1.8.1"
   }
 }
