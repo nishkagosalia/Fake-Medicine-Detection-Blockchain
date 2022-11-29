@@ -3,6 +3,11 @@ const express = require('express')
 const app = express()
 const hostname = '127.0.0.1';
 const port = 3000
+const [contractInstance,setcontractInstance] = useState();
+const [account,setaccount] = useState();
+const [web3,setweb3] = useState();
+const [owner,setowner] = useState();
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
@@ -19,7 +24,7 @@ app.listen(port, () => {
 
 
 // database connection
-const { MongoClient } = require("mongodb");
+const { MongoClient, ServerHeartbeatStartedEvent } = require("mongodb");
  
 // Replace the following with your Atlas connection string                                                                                                                                        
 const url = "mongodb+srv://TejanshuMistry:manali123@blockchaincluster.sqmijcg.mongodb.net/?retryWrites=true&w=majority";
@@ -78,7 +83,9 @@ async function loginUser(username, password){
     deployedNetwork && deployedNetwork.address,
   );
 
-  
+  const owner = await contractInstance.methods.getBalance('0x755fcD76091430d653c4DA5CEDFdE6479Bc47d08').call();
+  console.log(owner);
+
 
 
 
