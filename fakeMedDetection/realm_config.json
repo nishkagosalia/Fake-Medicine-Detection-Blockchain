@@ -1,0 +1,8 @@
+{
+    "app_id": "fakemeddetection-rxjtd",
+    "config_version": 20210101,
+    "name": "fakeMedDetection",
+    "location": "IN-MB",
+    "provider_region": "aws-ap-south-1",
+    "deployment_model": "LOCAL"
+}
