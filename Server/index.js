@@ -1,12 +1,12 @@
-import MetaCoin from '../fakeMedDetection/contractsOnly/MetaCoin.json';
-const express = require('express')
-const app = express()
+// const MetaCoin = require('../Server/contractsOnly/MetaCoin.json');
+const express = require('express');
+const app = express();
 const hostname = '127.0.0.1';
-const port = 3000
-const [contractInstance,setcontractInstance] = useState();
-const [account,setaccount] = useState();
-const [web3,setweb3] = useState();
-const [owner,setowner] = useState();
+const port = 3000;
+// const [contractInstance,setcontractInstance] = useState(null);
+// const [account,setaccount] = useState(null);
+// const [web3,setweb3] = useState(null);
+// const [owner,setowner] = useState(null);
 
 
 app.listen(port, () => {
@@ -76,15 +76,15 @@ app.get('/', (req, res) => {
 async function loginUser(username, password){
   const web3 = await getWeb3();
   const accounts = await web3.eth.getAccounts();
-  const networkID = await web3.eth.net.getId();
-  const deployedNetwork = MetaCoin.networks[networkID];
-  const instance = new web3.eth.Contract(
-    MetaCoin.abi,
-    deployedNetwork && deployedNetwork.address,
-  );
+  // const networkID = await web3.eth.net.getId();
+  // const deployedNetwork = MetaCoin.networks[networkID];
+  // const instance = new web3.eth.Contract(
+  //   MetaCoin.abi,
+  //   deployedNetwork && deployedNetwork.address,
+  // );
 
-  const owner = await contractInstance.methods.getBalance('0x755fcD76091430d653c4DA5CEDFdE6479Bc47d08').call();
-  console.log(owner);
+  // const owner = await contractInstance.methods.getBalance('0x755fcD76091430d653c4DA5CEDFdE6479Bc47d08').call();
+  // console.log(owner);
 
 
 
@@ -96,40 +96,13 @@ async function loginUser(username, password){
     console.log("Login successful");
     app.get('/login', (req,res) => {
       res.send({userName:username, password:password})
-      // var Web3 = require('web3');
-      // var url ='HTTP://0.0.0.0:8545';
-      // var web3 = new Web3(url);
-      // web3.eth.getAccounts(console.log);
 
-      // var Accounts = require('web3-eth-accounts');
-      // var Web3 = new Accounts('HTTP://0.0.0.0:8545');
-      // Web3.eth.getAccounts(console.log);
-
-      
-      // const ganache = require("ganache");
-      // const options = {};
-      // const server = ganache.server(options);
-      // const PORT = 8545;
-      // server.listen(PORT, async err => {
-      //   if(err) throw err;
-      //   console.log('ganache is listening on port ${PORT}...');
-      //   const provider = server.provider;
-      //   const accounts = await provider.request(
-      //     {
-      //       method: "eth_accounts",
-      //       params:[]
-      //     }
-      //   );
-      //   console.log(accounts);
-      // });
-
-
-      
+  // send contents to browser and mongo
+  
 
 
 
-      // const web3 = new Web3(ganache.provider());
-
+  
       
     }) 
   }
