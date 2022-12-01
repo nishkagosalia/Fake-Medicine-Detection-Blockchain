@@ -1,4 +1,3 @@
-// const MetaCoin = require('../Server/contractsOnly/MetaCoin.json');
 const express = require('express');
 const app = express();
 const hostname = '127.0.0.1';
@@ -21,7 +20,8 @@ const { MongoClient } = require("mongodb");
 // Replace the following with your Atlas connection string                                                                                                                                        
 const url = "mongodb+srv://TejanshuMistry:manali123@blockchaincluster.sqmijcg.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
-
+client.connect()
+console.log("Connected correctly to server");
 
 
 
@@ -33,16 +33,16 @@ const client = new MongoClient(url);
 // login for mongo  //async function
 async function loginUser(username, password){
   const userDetails = await client.db("PharmaChain").collection("LoginReg").findOne({userName:username, password:password})
-  if (userDetails.userName == username && userDetails.password == password){
+  if (userDetails!=null && userDetails.userName == username && userDetails.password == password){
     console.log("Login successful");
     app.get('/login', (req,res) => {
-      res.send({userName:username, password:password})      
+      res.send({result:"success",designation:userDetails.designation})
     }) 
   }
   else{
     console.log("Login Failed");
     app.get('/login',(req,res) => {
-      res.send("Login failed")
+      res.send({result:"failed"})
     })
   }
 };
@@ -73,11 +73,16 @@ async function findCurrentId(designationValue){
 
 
 
+router.post('/hello',async (req,res)=>{
+  var username=req.body.username
+  var password=req.body.password
+  try {
+    await loginUser(username,password)
+  }
+  catch{
 
-
-
-
-// register
+  }
+})
 
 router.post('/register',async(req,res) => {
 
@@ -119,5 +124,4 @@ router.post('/register',async(req,res) => {
 
 
 
-// app routes for express
-// '/register' for register page
+// run().catch(console.dir);
