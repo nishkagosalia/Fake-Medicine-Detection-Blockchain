@@ -29,7 +29,7 @@ async function loginUser(username, password){
   if (userDetails!=null && userDetails.userName == username && userDetails.password == password){
     console.log("Login successful");
     app.get('/login', (req,res) => {
-      res.send({result:"success",designation:userDetails.designation})
+      res.send({result:"success",designation:userDetails.designation,userId:userDetails.userId})
     }) 
   }
   else{
@@ -63,8 +63,6 @@ async function findCurrentId(designationValue){
   }
 
 }
-
-
 
 router.post('/hello',async (req,res)=>{
   var username=req.body.username
@@ -110,4 +108,25 @@ router.post('/register',async(req,res) => {
     userName:userName,
     password:password
   }).then(console.log("Pushed into LoginReg DB")) 
+})
+
+
+router.post('/addMeds',async(req,res) => {
+  console.log("entered add meds end point");
+  var medicineName = req.body.medicineName;
+  var expiryDate = req.body.expiryDate;
+  var manufacturerName = req.body.manufacturerName;
+  var cost = req.body.cost;
+  console.log(medicineName,expiryDate,manufacturerName,cost)
+  // var medLatestCount = await findLatestMedCount();
+  // await client.db("PharmaChain").collection("LoginReg").insertOne({
+  //   firstName:firstName,
+  //   blockchainAccountId:blockchainAccountId,
+  //   city:city,
+  //   designation:designationValue,
+  //   lastName:lastName,
+  //   userId:userId,
+  //   userName:userName,
+  //   password:password
+  // }).then(console.log("Pushed into LoginReg DB"))
 })

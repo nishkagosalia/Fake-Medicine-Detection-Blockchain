@@ -27,19 +27,19 @@ const Login=({navigation})=>{
         const res = await resp.json();
         const status=res.result;
         const designation=res.designation
-
+        const id=res.userId;
         if(status=="success"){
             if(designation=="Manufacturer")
             {
                 console.log("redirect")
-                navigation.navigate('manufacturer')
+                navigation.navigate('manufacturer', { username: username })
             }
             else if(designation == "Retailer")
             {
-                navigation.navigate('retailer')
+                navigation.navigate('retailer',{ username: username })
             }
             else{
-                navigation.navigate('consumer')
+                navigation.navigate('consumer',{ username: username })
             }
         }else(
            Alert.alert("Login Failed")
