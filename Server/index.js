@@ -29,7 +29,7 @@ async function loginUser(username, password){
   if (userDetails!=null && userDetails.userName == username && userDetails.password == password){
     console.log("Login successful");
     app.get('/login', (req,res) => {
-      res.send({result:"success",designation:userDetails.designation})
+      res.send({result:"success",designation:userDetails.designation,userId:userDetails.userId})
     }) 
   }
   else{
