@@ -1,5 +1,5 @@
+import React,{ Component, useEffect} from 'react';
 
-import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,33 +9,27 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import login from './screens/Login.js'
+import consumer from './screens/ConsumerHome.js'
+import manufacturer from './screens/ManufacturerHome.js'
+import retailer from './screens/RetailerHome.js'
 import mongoose from 'mongoose';
 
 
 const App = () => {
-  const appId = 'fakemeddetection-rxjtd'; 
-
-    // const response = fetch('http://192.168.1.10:3000/',{method:"GET"});
-    
-    const getMovies = async () => {
-      try {
-       const response = await fetch('http://192.168.1.10:3000/');
-       const json = await response.json();
-       console.log(json);
-     } catch (error) {
-       console.error(error);
-     } finally {
-      
-     }
-   }
-
-   getMovies();
+  const Stack=createStackNavigator()
 
   return (
-    <SafeAreaView>
-      <Text>Show the app</Text>
-    
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName = "login" screenOptions={{headerMode:'False'}}>
+        <Stack.Screen name="login" component={login}/>
+        <Stack.Screen name="consumer" component={consumer}/>
+        <Stack.Screen name="manufacturer" component={manufacturer}/>
+        <Stack.Screen name="retailer" component={retailer}/>
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 }
 
