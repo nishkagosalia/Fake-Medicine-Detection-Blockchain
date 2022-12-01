@@ -25,22 +25,22 @@ const ManufacturerHome = () =>{
     return(
       <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.welcomtxt}>Welcome Manufacturer!!</Text>
+                <Text style={styles.welcomtxt}>Welcome {username} !!</Text>
             </View>
-            <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('addMedicine',{Id:userID})}}>
+            <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('addMedicine',{username:username})}}>
               <Image source={require('../images/addmeds.png')} style={styles.addimg}></Image>
               <Text style={styles.txt}>Add Medicine</Text>
             </TouchableOpacity>
 
             <View style={styles.field}></View>
-            <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('myorder',{Id:userID})}}>
+            <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('myorder',{username:username})}}>
               <Image source={require('../images/myorder.png')} style={styles.orderimg}></Image>
               <Text style={styles.ordertxt}>My Orders</Text>
             </TouchableOpacity>
             <View style={styles.field}>
 
             </View>
-            <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('mantransaction',{Id:userID})}}>
+            <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('mantransaction',{username:username})}}>
                 <Image source={require('../images/transaction.png')} style={styles.transimg}></Image>
                 <Text style={styles.txt}>Transactions</Text>
             </TouchableOpacity>

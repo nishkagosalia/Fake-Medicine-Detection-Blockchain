@@ -17,9 +17,9 @@ import { useRoute,useNavigation } from '@react-navigation/native';
 
 
 const MyOrder=()=>{
-  const username=route.params.username;
   const route=useRoute();
   const navigation=useNavigation();
+  const username=route.params.username;
 }
 
 export default MyOrder;
