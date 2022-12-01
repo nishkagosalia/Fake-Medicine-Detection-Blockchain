@@ -1,5 +1,5 @@
 
-import React from 'react';
+import * as React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,32 +10,27 @@ import {
   View,
 } from 'react-native';
 import mongoose from 'mongoose';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import Signup from './screens/Signup';
+import manufacturer from './screens/ManufacturerHome';
+import retailer from './screens/RetailerHome';
+import consumer from './screens/ConsumerHome';
 
 
 const App = () => {
-  const appId = 'fakemeddetection-rxjtd'; 
-
-    // const response = fetch('http://192.168.1.10:3000/',{method:"GET"});
-    
-    const getMovies = async () => {
-      try {
-       const response = await fetch('http://192.168.1.10:3000/');
-       const json = await response.json();
-       console.log(json);
-     } catch (error) {
-       console.error(error);
-     } finally {
-      
-     }
-   }
-
-   getMovies();
-
+  
+   // app
+  const Stack = createStackNavigator();
   return (
-    <SafeAreaView>
-      <Text>Show the app</Text>
-    
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Signup" screenOptions={{headerMode:'False'}}>
+        <Stack.Screen name = "Signup" component = {Signup}/>
+        <Stack.Screen name = "consumer" component = {consumer}/>
+        <Stack.Screen name = "manufacturer" component = {manufacturer}/>
+        <Stack.Screen name = "retailer" component = {retailer}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
