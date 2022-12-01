@@ -22,7 +22,7 @@ const Login=({navigation})=>{
     const [username,setUsername]=useState('')
     const [Password,setPassword]=useState('')
     const checkuser=async()=>{
-        const resp=await fetch('http://192.168.100.40:3000/login',{
+        const resp=await fetch('http://192.168.1.10:3000/login',{
         method:"GET"})
         const res = await resp.json();
         const status=res.result;
@@ -50,7 +50,7 @@ const Login=({navigation})=>{
         console.log(username,Password)
         try{
 
-             await fetch('http://192.168.100.40:3000/hello',{
+             await fetch('http://192.168.1.10:3000/hello',{
                 method:"POST",
         
                 headers: {"Content-Type": "application/json"},
