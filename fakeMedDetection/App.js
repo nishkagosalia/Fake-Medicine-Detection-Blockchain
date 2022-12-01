@@ -1,5 +1,4 @@
 import React,{ Component, useEffect} from 'react';
-
 import {
   SafeAreaView,
   ScrollView,
@@ -15,7 +14,7 @@ import login from './screens/Login.js'
 import consumer from './screens/ConsumerHome.js'
 import manufacturer from './screens/ManufacturerHome.js'
 import retailer from './screens/RetailerHome.js'
-import mongoose from 'mongoose';
+import Signup from './screens/Signup.js';
 
 
 const App = () => {
@@ -25,6 +24,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName = "login" screenOptions={{headerMode:'False'}}>
         <Stack.Screen name="login" component={login}/>
+        <Stack.Screen name="Signup" component = {Signup}/>
         <Stack.Screen name="consumer" component={consumer}/>
         <Stack.Screen name="manufacturer" component={manufacturer}/>
         <Stack.Screen name="retailer" component={retailer}/>

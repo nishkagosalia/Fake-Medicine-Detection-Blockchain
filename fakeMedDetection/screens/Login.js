@@ -98,7 +98,7 @@ const Login=({navigation})=>{
                     <Text style={styles.logintext}>Login</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity><Text style={{left:'7%', fontSize:22, color:'black',top:'999%'}}>Don't have an account?<Text style={{left:'7%', fontSize:22, color:'blue',top:'999%'}}> Register Now</Text></Text></TouchableOpacity>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Signup')}}><Text style={{left:'7%', fontSize:22, color:'black',top:'999%'}}>Don't have an account?<Text style={{left:'7%', fontSize:22, color:'blue',top:'999%'}}> Register Now</Text></Text></TouchableOpacity>
         </View>
     )
 }

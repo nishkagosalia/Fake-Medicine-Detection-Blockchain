@@ -1,21 +1,24 @@
+import React, { useState } from 'react';
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    useColorScheme,
-    View,
-    Image,
-    TextInput,
-    Button,
-    TouchableOpacity,
-    Alert,
-  } from 'react-native';
-  import { useState } from "react";
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  useColorScheme,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-  const ManufacturerHome = () =>{
 
-  }
+const ManufacturerHome = (navigation) =>{
+    return(
+        <Text>ManufacturerHome</Text>
+    )
+}
 
-  export default ManufacturerHome;
+export default ManufacturerHome;
