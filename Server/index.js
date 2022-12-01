@@ -64,6 +64,16 @@ async function findCurrentId(designationValue){
 
 }
 
+
+async function findLatestMedCount(){
+  let medcount = await client.db("PharmaChain").collection("CountDB").findOne({Designation:"Medicine"});
+  let latestmedcount = medcount.Count;
+  console.log(latestmedcount);
+  return latestmedcount;
+}
+
+
+
 router.post('/hello',async (req,res)=>{
   var username=req.body.username
   var password=req.body.password
@@ -111,22 +121,24 @@ router.post('/register',async(req,res) => {
 })
 
 
+// add medicine to medicineDB
+
+
 router.post('/addMeds',async(req,res) => {
   console.log("entered add meds end point");
   var medicineName = req.body.medicineName;
   var expiryDate = req.body.expiryDate;
-  var manufacturerName = req.body.manufacturerName;
+  var userName = req.body.userName;
   var cost = req.body.cost;
-  console.log(medicineName,expiryDate,manufacturerName,cost)
-  // var medLatestCount = await findLatestMedCount();
-  // await client.db("PharmaChain").collection("LoginReg").insertOne({
-  //   firstName:firstName,
-  //   blockchainAccountId:blockchainAccountId,
-  //   city:city,
-  //   designation:designationValue,
-  //   lastName:lastName,
-  //   userId:userId,
-  //   userName:userName,
-  //   password:password
-  // }).then(console.log("Pushed into LoginReg DB"))
+  var medLatestCount = await findLatestMedCount();
+  var productId = "MED"+(medLatestCount+1);
+
+
+  await client.db("PharmaChain").collection("MedicineDB").insertOne({
+    medicineName:medicineName,
+    expiryDate:expiryDate,
+    userName:"Tejanshu",
+    cost:cost,
+    productId:productId
+  }).then(console.log("Pushed into LoginReg DB")) 
 })
