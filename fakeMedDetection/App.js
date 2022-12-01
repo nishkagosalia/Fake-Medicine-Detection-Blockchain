@@ -15,6 +15,7 @@ import consumer from './screens/ConsumerHome.js'
 import manufacturer from './screens/ManufacturerHome.js'
 import retailer from './screens/RetailerHome.js'
 import Signup from './screens/Signup.js';
+import AddMedicine from './screens/AddMedicine.js';
 
 
 const App = () => {
@@ -22,12 +23,13 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName = "login" screenOptions={{headerMode:'False'}}>
+      <Stack.Navigator initialRouteName = "addMedicine" screenOptions={{headerMode:'False'}}>
         <Stack.Screen name="login" component={login}/>
         <Stack.Screen name="Signup" component = {Signup}/>
         <Stack.Screen name="consumer" component={consumer}/>
         <Stack.Screen name="manufacturer" component={manufacturer}/>
         <Stack.Screen name="retailer" component={retailer}/>
+        <Stack.Screen name="addMedicine" component={AddMedicine}/>
         </Stack.Navigator>
       </NavigationContainer>
   );
