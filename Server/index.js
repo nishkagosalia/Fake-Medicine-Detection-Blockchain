@@ -23,13 +23,6 @@ const client = new MongoClient(url);
 client.connect()
 console.log("Connected correctly to server");
 
-
-
-
-
-
-
-
 // login for mongo  //async function
 async function loginUser(username, password){
   const userDetails = await client.db("PharmaChain").collection("LoginReg").findOne({userName:username, password:password})
@@ -118,10 +111,3 @@ router.post('/register',async(req,res) => {
     password:password
   }).then(console.log("Pushed into LoginReg DB")) 
 })
-
-
-
-
-
-
-// run().catch(console.dir);
