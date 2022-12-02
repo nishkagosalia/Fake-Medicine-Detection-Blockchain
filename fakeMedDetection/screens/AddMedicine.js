@@ -13,13 +13,13 @@ import {
     Alert,
   } from 'react-native';
   import { useState } from "react";
-  import { NavigationContainer } from '@react-navigation/native';
+  import { NavigationContainer, useRoute,useNavigation } from '@react-navigation/native';
   import { createNativeStackNavigator } from '@react-navigation/native-stack';
   import DatePicker from 'react-native-date-picker';
 
 
-const AddMedicine = ({navigation}) => {
-
+const AddMedicine = () => {
+    
     const [medicineName,setMedicineName] = useState('');
     const date = new Date();
     const [expiryDate,setExpiryDate] = useState(date);
@@ -29,11 +29,7 @@ const AddMedicine = ({navigation}) => {
         navigation.navigate("manufacturer");
     }
     const addMedsDatabase = async() =>{
-
-        console.log("THIS IS MEDICINE NAME FUCK U ");
-        console.log(cost);
-
-       await fetch('http://192.168.1.10:3000/addMeds',{
+       await fetch('http://192.168.100.40:3000/addMeds',{
             method:'POST',
             headers:{
                 Accept: 'application/JSON',

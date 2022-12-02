@@ -29,7 +29,7 @@ async function loginUser(username, password){
   if (userDetails!=null && userDetails.userName == username && userDetails.password == password){
     console.log("Login successful");
     app.get('/login', (req,res) => {
-      res.send({result:"success",designation:userDetails.designation,userId:userDetails.userId})
+      res.send({result:"success",designation:userDetails.designation,name:userDetails.firstName})
     }) 
   }
   else{
@@ -77,6 +77,7 @@ async function findLatestMedCount(){
 router.post('/hello',async (req,res)=>{
   var username=req.body.username
   var password=req.body.password
+  console.log("checking for login")
   try {
     await loginUser(username,password)
   }
@@ -141,4 +142,41 @@ router.post('/addMeds',async(req,res) => {
     cost:cost,
     productId:productId
   }).then(console.log("Pushed into LoginReg DB")) 
+})
+
+router.post('/getmanorders',async(req,res)=>{
+
+  const query = {sellerName:"Tejanshu",status:"pending"};
+  const options = {projection:{}};
+  const details = await client.db("PharmaChain").collection("OrderDB").find(query);
+  if ((await details.count()) === 0){
+    console.log("No Documents were found in ordereDB !!");
+  }
+  else{
+    const arr=[]
+    const allorders = await details.forEach(function(myDoc) { arr.push({buyerName:myDoc.buyerName,medicineName:myDoc.medicineName,unit:myDoc.unit,cost:myDoc.cost}) });
+    console.log(arr)
+    app.get('/sendmanorders', (req,res) => {
+      res.send(arr)
+    }) 
+    
+  }
+  
+})
+
+//get medicine list
+app.get('/medslist', async(req,res) =>{
+  const query = {ManufacturerName:"Tejanshu"};
+  const options = {projection:{_id:0,medicineName:1}};
+  const cursorMedsList = await client.db("PharmaChain").collection("MedicineDB").find(query,options);
+  if ((await cursorMedsList.count()) === 0){
+    console.log("No Documents were found in medicineDB !!");
+  }
+  else{
+    const medslistarray = [];
+    await cursorMedsList.forEach(function(medslist){medslistarray.push(medslist.medicineName)});
+    res.send(medslistarray);
+    console.log(medslistarray);
+    console.log("data sent to react");
+  }
 })
