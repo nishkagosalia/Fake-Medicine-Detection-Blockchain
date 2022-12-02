@@ -16,11 +16,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { useRoute,useNavigation } from '@react-navigation/native';
 
 
-const ManTransaction=()=>{
+const RetailerTransaction=()=>{
   const route=useRoute();
   const navigation=useNavigation();
-  const name=route.params.name;
 
 }
 
-export default ManTransaction;
+export default RetailerTransaction;
