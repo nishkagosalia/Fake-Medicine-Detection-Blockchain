@@ -18,6 +18,7 @@ import Signup from './screens/Signup.js';
 import AddMedicine from './screens/AddMedicine.js';
 import ManTransaction from './screens/ManTransaction.js';
 import MyOrder from './screens/MyOrder.js';
+import RetailerPlaceOrder from './screens/RetailerPlaceOrder.js';
 
 const App = () => {
   const Stack=createStackNavigator()
@@ -33,6 +34,7 @@ const App = () => {
         <Stack.Screen name="addMedicine" component={AddMedicine}/>
         <Stack.Screen name="mantransaction" component={ManTransaction}/>
         <Stack.Screen name="myorder" component={MyOrder}/>
+        <Stack.Screen name="retailerplaceorder" component={RetailerPlaceOrder}/>
         </Stack.Navigator>
       </NavigationContainer>
   );

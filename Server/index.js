@@ -142,3 +142,22 @@ router.post('/addMeds',async(req,res) => {
     productId:productId
   }).then(console.log("Pushed into LoginReg DB")) 
 })
+
+
+// get medicines list
+
+app.get('/medslist', async(req,res) =>{
+  const query = {ManufacturerName:"Tejanshu"};
+  const options = {projection:{_id:0,medicineName:1}};
+  const cursorMedsList = await client.db("PharmaChain").collection("MedicineDB").find(query,options);
+  if ((await cursorMedsList.count()) === 0){
+    console.log("No Documents were found in medicineDB !!");
+  }
+  else{
+    const medslistarray = [];
+    await cursorMedsList.forEach(function(medslist){medslistarray.push(medslist.medicineName)});
+    res.send(medslistarray);
+    console.log(medslistarray);
+    console.log("data sent to react");
+  }
+})
