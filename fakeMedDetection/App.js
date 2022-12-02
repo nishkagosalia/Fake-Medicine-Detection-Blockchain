@@ -17,8 +17,9 @@ import retailer from './screens/RetailerHome.js'
 import Signup from './screens/Signup.js';
 import AddMedicine from './screens/AddMedicine.js';
 import ManTransaction from './screens/ManTransaction.js';
-import MyOrder from './screens/MyOrder.js';
+import MyOrder from './screens/MyOrder.js'
 import RetailerPlaceOrder from './screens/RetailerPlaceOrder.js';
+import RetailerTransaction from './screens/RetailerTransaction.js';
 
 const App = () => {
   const Stack=createStackNavigator()
@@ -35,6 +36,7 @@ const App = () => {
         <Stack.Screen name="mantransaction" component={ManTransaction}/>
         <Stack.Screen name="myorder" component={MyOrder}/>
         <Stack.Screen name="retailerplaceorder" component={RetailerPlaceOrder}/>
+        <Stack.Screen name="retailertransaction" component={RetailerTransaction}/>
         </Stack.Navigator>
       </NavigationContainer>
   );
