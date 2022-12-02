@@ -33,16 +33,12 @@ const RetailerPlaceOrder = () =>{
 
     const getMeds = async() =>{
       console.log("entered getmeds in react");
-      const medicinearray=await fetch('http://192.168.100.40:3000/medslist',{method:'GET'})
+      const medicinearray=await fetch('http://192.168.1.10:3000/medslist',{method:'GET'})
       const resultmedslist = await medicinearray.json();
       for (var i=0;i<resultmedslist.length;i++){
-
         jsonarray.push({medicineName:resultmedslist[i]})
-        // jsonarray.push();
       }
-      setDisplaydata(jsonarray)
-      // console.log(jsonarray);
-      // console.log(array)
+      setDisplaydata(jsonarray);
      }
     
 
@@ -67,14 +63,6 @@ const RetailerPlaceOrder = () =>{
                               )
                             })}
                     </Picker>
-
-                    {/* <Dropdown style = {styles.dropdown}
-                    data = {jsonarray}
-                    onChange = {itemValue =>{
-                      setMedSelected(itemValue)
-                    }}
-                    >
-                    </Dropdown> */}
                 </View>
             </View>
             <View style = {styles.medicinetile}>
