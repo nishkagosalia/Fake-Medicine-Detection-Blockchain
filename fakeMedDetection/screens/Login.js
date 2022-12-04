@@ -21,36 +21,39 @@ const Login=({navigation})=>{
 
     const [username,setUsername]=useState('')
     const [Password,setPassword]=useState('')
+
     const checkuser=async()=>{
-        const resp=await fetch('http://192.168.1.10:3000/login',{
-        method:"GET"})
-        const res = await resp.json();
-        const status=res.result;
-        const designation=res.designation
-        const id=res.userId;
-        if(status=="success"){
-            if(designation=="Manufacturer")
-            {
-                console.log("redirect")
-                navigation.navigate('manufacturer', { username: username })
-            }
-            else if(designation == "Retailer")
-            {
-                navigation.navigate('retailer',{ username: username })
-            }
-            else{
-                navigation.navigate('consumer',{ username: username })
-            }
-        }else(
-           Alert.alert("Login Failed")
-        )
+        await fetch('http://192.168.100.40:3000/login',{
+        method:"GET"}).then((resp)=>resp.json()).then((response)=>{
+
+            const status=response.result;
+            const designation=response.designation
+            const name=response.name;
+            console.log(designation)
+            if(status=="success"){
+                if(designation=="Manufacturer")
+                {
+                    console.log("redirect")
+                    navigation.navigate('manufacturer', { name: name })
+                }
+                else if(designation == "Retailer")
+                {
+                    navigation.navigate('retailer',{ name: name })
+                }
+                else{
+                    navigation.navigate('consumer',{ name: name })
+                }
+            }else(
+            Alert.alert("Login Failed")
+            )
+        })
     }
     const loginuser=async()=>{
 
         console.log(username,Password)
-        try{
+        
 
-             await fetch('http://192.168.1.10:3000/hello',{
+        await fetch('http://192.168.100.40:3000/hello',{
                 method:"POST",
         
                 headers: {"Content-Type": "application/json"},
@@ -59,16 +62,11 @@ const Login=({navigation})=>{
                     "username": username,
                     "password": Password,
                 })
-            }).then(checkuser())
+        }).then(checkuser())
            
 
-        }
-        catch{
-
-        }
-        finally{
-            
-        }
+        
+       
     }
     return(
         <View style={styles.container}>

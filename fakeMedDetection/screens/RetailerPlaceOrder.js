@@ -22,31 +22,82 @@ const RetailerPlaceOrder = () =>{
    const navigation=useNavigation();
    const route=useRoute();
    const [medSelected,setMedSelected] = useState('');
-   const [displaydata,setDisplaydata]= useState([])
+   const [displaydata,setDisplaydata]= useState([]);
+   const [medArray,setMedArray] = useState([]);
+   const [medName,setMedName] = useState('Crocin');
+   const [medCost,setMedCost] = useState(100);
+   const [manuName,setManuName] = useState('Tejanshu');
+   const [unit,setUnit] = useState(0);
+   const [totalPrice,setTotalPrice] = useState(0);
    const jsonarray = [];
-   const array=[]
-   const blank = [{label:'hello',value:'hi'},{label:'I',value:'You'}];
    useEffect(() => {
     getMeds()
+    getAllMedicineData()
     },[])
-
 
     const getMeds = async() =>{
       console.log("entered getmeds in react");
-      const medicinearray=await fetch('http://192.168.1.10:3000/medslist',{method:'GET'})
+      const medicinearray=await fetch('http://192.168.100.40:3000/medslist',{method:'GET'})
       const resultmedslist = await medicinearray.json();
       for (var i=0;i<resultmedslist.length;i++){
         jsonarray.push({medicineName:resultmedslist[i]})
       }
       setDisplaydata(jsonarray);
      }
+
+     const getAllMedicineData = async() =>{
+      console.log("Retrieve all medicine data , called in react native");
+      const allMedData = await fetch('http://192.168.100.40:3000/getAllMedsDB',{method:'GET'});
+      console.log(allMedData);
+      const jsonallMed = await allMedData.json();
+      console.log(jsonallMed);
+      setMedArray(jsonallMed);
+     }
+
+     const doMultipleThings = (itemValue) =>{
+      console.log("this is med array using setstate",medArray);
+      for(let j=0;j<medArray.length;j++){
+        if(itemValue == medArray[j]){
+          setMedSelected(itemValue);
+          setMedName(medArray[j]);
+          setMedCost(medArray[j+1]);
+          setManuName(medArray[j+2]);
+        }
+      }
+     }
     
+      const calculatePrice = () =>{
+        console.log("this function in react will calculate price");
+        if(isNaN(unit) && isNaN(medCost)){
+          console.log("something seems to be undefined");
+        }
+        else{
+          console.log(typeof(parseInt(unit,10)),typeof(parseInt(medCost,10)))
+          var total = (parseInt(unit,10)*parseInt(medCost,10));
+          setTotalPrice(total);
+          console.log(typeof(unit),typeof(medCost),typeof(total));
+        }
+        
+      }
+
+      const placeMedsOrder = async() =>{
+        await fetch('http://192.168.100.40:3000/placeMedsOrder',{
+            method:'POST',
+            headers:{
+                Accept: 'application/JSON',
+                'Content-Type': 'application/JSON'
+            },
+            body: JSON.stringify({
+                
+            })
+        })
+      }
 
     return(
       <View style={styles.container}>
             <View style={styles.header}>
                 <View style = {styles.placeordertitle}>
-                    <Text style = {{fontSize:30,color:"black"}}>PLACE YOUR ORDER </Text>
+                    <Text style = {{fontSize:30, fontWeight:"bold",color:"black"}}>PLACE YOUR ORDER </Text>
                 </View>
             </View>
             <View style = {styles.titleText}>
@@ -55,7 +106,7 @@ const RetailerPlaceOrder = () =>{
                         selectedValue = {medSelected}
                         style = {styles.dropdown}
                         prompt = {"Select Medicine"}
-                        onValueChange = {(itemValue,itemIndex) => setMedSelected(itemValue)}
+                        onValueChange = {(itemValue,itemIndex) => doMultipleThings(itemValue)}
                         >
                             {displaydata.map((item,index) => {
                               return(
@@ -66,20 +117,25 @@ const RetailerPlaceOrder = () =>{
                 </View>
             </View>
             <View style = {styles.medicinetile}>
-            
+                  <Text style = {styles.partimeds}> Medicine Name: {medName}</Text>   
+                  <Text style = {styles.partimeds}> Medicine cost: {medCost}</Text>  
+                  <Text style = {styles.partimeds}> Manufacturer Name: {manuName}</Text>         
             
             </View>
             <View style = {styles.footer}>
                 <View style = {styles.quantity}>
-                    <Text style = {{fontSize:13, left:10, top:10, color:"black"}}>UNIT : {} </Text>
+                    <TextInput style = {{fontSize:13, left:10, top:0, fontWeight:"bold", color:"black"}} keyboardType="numeric" onChangeText={item => setUnit(parseInt(item))}>QTY :  </TextInput>
                 </View>
+                <TouchableOpacity style = {styles.getPrice} onPress = {() =>{calculatePrice()}} >
+                    <Text style = {{fontSize:13, left:15, fontWeight:"bold", top:10, color:"black"}} onPress = {()=>{calculatePrice()}}>SHOW</Text>
+                </TouchableOpacity>
                 <View style = {styles.price}>
-                    <Text style = {{fontSize:13, left:10, top:10, color:"black"}}>TOTAL PRICE : {} </Text>
+                    <Text style = {{fontSize:13, left:10, fontWeight:"bold", top:10, color:"black"}}>TOTAL PRICE : {totalPrice} </Text>
                 </View>
             </View>
-            <View style = {styles.placeorder}>
-                <Text style = {{fontSize:13, left:40, top:10, color:"black"}}>PLACE ORDER !!</Text>
-            </View>
+            <TouchableOpacity style = {styles.placeorder} onPress = {() =>{console.log(totalPrice)}} >
+                <Text style = {{fontSize:13, fontWeight:"bold", left:35, top:10, color:"white"}}>PLACE ORDER</Text>
+            </TouchableOpacity>
         </View>
     )}
                   
@@ -119,7 +175,7 @@ const styles=StyleSheet.create({
     borderColor:"purple"
   },
   medicinetile:{
-    height:"50%",
+    height:300,
     top:"5%",
     left:"15%",
     width:"70%",
@@ -142,23 +198,33 @@ const styles=StyleSheet.create({
     flexDirection:"row"
   },
   quantity:{
-    width:"40%",
+    width:"30%",
     top:"15%",
     height:"20%",
     borderWidth:2,
     borderRadius:30,
     borderColor:"purple",
-    backgroundColor:"#F25AF2"
+    backgroundColor:"#D8BFD8"
+  },
+  getPrice:{
+    width:"20%",
+    top:"15%",
+    left:10,
+    height:"20%",
+    borderWidth:2,
+    borderRadius:30,
+    borderColor:"purple",
+    backgroundColor:"#D8BFD8"
   },
   price:{
     top:"15%",
     left:"10%",
-    width:"40%",
+    width:"35%",
     height:"20%",
     borderWidth:2,
     borderRadius:30,
     borderColor:"purple",
-    backgroundColor:"#F25AF2"
+    backgroundColor:"#D8BFD8"
   },
   bottom:{
     width:"100%",
@@ -173,7 +239,13 @@ const styles=StyleSheet.create({
     borderWidth:2,
     borderRadius:30,
     borderColor:"purple",
-    backgroundColor:"pink"
+    backgroundColor:"#673147"
+  },
+  partimeds:{
+    width:"100%",
+    top:10,
+    height:"7%",
+    borderRadius:2
   },
 
 })

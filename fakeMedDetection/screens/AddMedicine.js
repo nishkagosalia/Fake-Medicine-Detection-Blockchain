@@ -20,13 +20,16 @@ import {
 
 const AddMedicine = () => {
     
+    const navigation=useNavigation();
+    const route=useRoute();
+    const name=route.params.name;
     const [medicineName,setMedicineName] = useState('');
     const date = new Date();
     const [expiryDate,setExpiryDate] = useState(date);
     const [cost,setCost] = useState('');
     const [open, setOpen] = useState(false);
     const navigateToHome = () =>{
-        navigation.navigate("manufacturer");
+        navigation.navigate("manufacturer",{name:name});
     }
     const addMedsDatabase = async() =>{
        await fetch('http://192.168.100.40:3000/addMeds',{
