@@ -40,7 +40,7 @@ const ManufacturerHome = () =>{
             <View style={styles.field}>
 
             </View>
-            <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('mantransaction',{username:username})}}>
+            <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('mantransaction',{name:name})}}>
                 <Image source={require('../images/transaction.png')} style={styles.transimg}></Image>
                 <Text style={styles.txt}>Transactions</Text>
             </TouchableOpacity>

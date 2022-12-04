@@ -40,6 +40,30 @@ async function loginUser(username, password){
   }
 };
 
+
+// fastlogin endpoint maybe
+
+app.get('/optimizelogin',async(req,res)=>{
+  const query = {userName:{$ne : null}};
+  const options = {projection:{firstName:1,designation:1,userName:1,password:1}};
+  const loginres = await client.db("PharmaChain").collection("LoginReg").find(query,options);
+  if((await loginres.count())===0){
+    console.log("No users are found");
+  }
+  else{
+  const loginarray = [];
+  await loginres.forEach(function(logindata){
+    loginarray.push(logindata.userName, logindata.password,logindata.designation,logindata.firstName);
+    console.log(logindata);
+  });
+  console.log(loginarray);
+  res.send(loginarray);
+  }
+})
+
+
+
+
 // find currentID function  //async
 
 async function findCurrentId(designationValue){
@@ -85,6 +109,8 @@ router.post('/hello',async (req,res)=>{
 
   }
 })
+
+// register endpoint
 
 router.post('/register',async(req,res) => {
 
@@ -179,4 +205,51 @@ app.get('/medslist', async(req,res) =>{
     console.log(medslistarray);
     console.log("data sent to react");
   }
+})
+
+// get all medicine data
+
+app.get('/getAllMedsDB',async(req,res)=>{
+  const query = {cost:{$gt:0}}
+  const options = {projection:{_id:0,medicineName:1,cost:1,ManufacturerName:1}}
+  const getAllMeds = await client.db("PharmaChain").collection("MedicineDB").find(query,options);
+  if((await getAllMeds.count())===0){
+    console.log("No medicines are found");
+  }
+  else{
+    const allMeds = [];
+    await getAllMeds.forEach(function(getAllMeds){
+      allMeds.push(getAllMeds.medicineName,getAllMeds.cost,getAllMeds.ManufacturerName);
+    });
+    console.log("all meds in node",allMeds);
+    res.send(allMeds);
+  }
+})
+
+// retailer place order
+
+router.post('/placeMedsOrder',async(req,res)=>{
+
+  
+  var sellerName = req.body.sellerName;
+  var buyerName = req.body.buyerName;
+  var medicineName = req.body.medicineName;
+  var unit = req.body.unit;
+  var cost = req.body.cost;
+  var totalCost = cost*unit;
+  var status = "pending";
+  console.log("entered add meds end point",unit,cost);
+  console.log("total cost is not nan?",totalCost);
+
+
+  await client.db("PharmaChain").collection("OrderDB").insertOne({
+    sellerName:sellerName,
+    buyerName:buyerName,
+    medicineName:medicineName,
+    unit:unit,
+    cost:cost,
+    totalCost:totalCost,
+    status:status
+  }).then(console.log("Pushed into Order DB")) 
+  
 })
