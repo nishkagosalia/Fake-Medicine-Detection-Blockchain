@@ -12,63 +12,54 @@ import {
     TouchableOpacity,
     Alert,
   } from 'react-native';
-  import { useState } from "react";
+  import { useEffect, useState } from "react";
   import { NavigationContainer } from '@react-navigation/native';
   import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { json } from 'stream/consumers';
 
 
 const Login=({navigation})=>{
+    useEffect(() => {
+        loginuser()
+        },[])   
 
     const [username,setUsername]=useState('')
     const [Password,setPassword]=useState('')
+    const [jsonState,setJsonState] = useState([]);
 
-    const checkuser=async()=>{
-        await fetch('http://192.168.100.40:3000/login',{
-        method:"GET"}).then((resp)=>resp.json()).then((response)=>{
-
-            const status=response.result;
-            const designation=response.designation
-            const name=response.name;
-            console.log(designation)
-            if(status=="success"){
-                if(designation=="Manufacturer")
-                {
-                    console.log("redirect")
-                    navigation.navigate('manufacturer', { name: name })
+    const checkUser = (jsonAllLoginData) =>{
+        var flag = 0;
+        for(let i=0;i<jsonAllLoginData.length;i++){
+            if(username==jsonAllLoginData[i]){
+                if(Password==jsonAllLoginData[i+1]){
+                    if(jsonAllLoginData[i+2]=="Manufacturer"){
+                        navigation.navigate("manufacturer",{name:jsonAllLoginData[i+3]});
+                        flag = 1;
+                    }
+                    else if(jsonAllLoginData[i+2]=="Retailer"){
+                        navigation.navigate("retailer",{name:jsonAllLoginData[i+3]});
+                        flag = 1;
+                    }
+                    else if(jsonAllLoginData[i+2]=="Consumer"){
+                        navigation.navigate("consumer",{name:jsonAllLoginData[i+3]});
+                        flag = 1;
+                    }
                 }
-                else if(designation == "Retailer")
-                {
-                    navigation.navigate('retailer',{ name: name })
-                }
-                else{
-                    navigation.navigate('consumer',{ name: name })
-                }
-            }else(
-            Alert.alert("Login Failed")
-            )
-        })
-    }
-    const loginuser=async()=>{
-
-        console.log(username,Password)
-        
-
-        await fetch('http://192.168.100.40:3000/hello',{
-                method:"POST",
-        
-                headers: {"Content-Type": "application/json"},
-
-                body: JSON.stringify({
-                    "username": username,
-                    "password": Password,
-                })
-        }).then(checkuser())
-           
-
-        
+            }
+        }
+        if (flag==0){
+            Alert.alert("You are prohibited inside the network !! ");
+        }
        
     }
-    return(
+
+    const loginuser=async()=>{
+        const allLoginData = await fetch('http://192.168.1.10:3000/optimizelogin',{method:"GET"});
+        const jsonAllLoginData = await allLoginData.json()
+        setJsonState(jsonAllLoginData);
+    }
+    
+        return(
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image style={styles.loginLogo}
@@ -92,7 +83,7 @@ const Login=({navigation})=>{
                     onChangeText={text=>setPassword(text)}
                 />
                 </View>
-                <TouchableOpacity style={styles.button} onPress={loginuser}>
+                <TouchableOpacity style={styles.button} onPress={()=>{checkUser(jsonState)}}>
                     <Text style={styles.logintext}>Login</Text>
                 </TouchableOpacity>
             </View>
@@ -100,7 +91,6 @@ const Login=({navigation})=>{
         </View>
     )
 }
-
 const styles=StyleSheet.create({
 
     container:{
@@ -168,5 +158,4 @@ const styles=StyleSheet.create({
     }
 
 })
-
-export default Login
+export default Login;
