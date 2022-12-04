@@ -27,8 +27,8 @@ const RetailerPlaceOrder = () =>{
    const [medName,setMedName] = useState('Crocin');
    const [medCost,setMedCost] = useState(100);
    const [manuName,setManuName] = useState('Tejanshu');
-   const [unit,setUnit] = useState(0);
-   const [totalPrice,setTotalPrice] = useState(0);
+   const [unit,setUnit] = useState();
+   const [totalPrice,setTotalPrice] = useState();
    const jsonarray = [];
    useEffect(() => {
     getMeds()
@@ -47,7 +47,7 @@ const RetailerPlaceOrder = () =>{
 
      const getAllMedicineData = async() =>{
       console.log("Retrieve all medicine data , called in react native");
-      const allMedData = await fetch('http://192.168.100.40:3000/getAllMedsDB',{method:'GET'});
+      const allMedData = await fetch('http://192.168.1.10:3000/getAllMedsDB',{method:'GET'});
       console.log(allMedData);
       const jsonallMed = await allMedData.json();
       console.log(jsonallMed);
@@ -61,6 +61,7 @@ const RetailerPlaceOrder = () =>{
           setMedSelected(itemValue);
           setMedName(medArray[j]);
           setMedCost(medArray[j+1]);
+          console.log(medCost);
           setManuName(medArray[j+2]);
         }
       }
@@ -68,29 +69,26 @@ const RetailerPlaceOrder = () =>{
     
       const calculatePrice = () =>{
         console.log("this function in react will calculate price");
-        if(isNaN(unit) && isNaN(medCost)){
-          console.log("something seems to be undefined");
+         var total = unit*medCost;
+         setTotalPrice(total);
         }
-        else{
-          console.log(typeof(parseInt(unit,10)),typeof(parseInt(medCost,10)))
-          var total = (parseInt(unit,10)*parseInt(medCost,10));
-          setTotalPrice(total);
-          console.log(typeof(unit),typeof(medCost),typeof(total));
-        }
-        
-      }
 
       const placeMedsOrder = async() =>{
-        await fetch('http://192.168.100.40:3000/placeMedsOrder',{
+        console.log("before we push",unit);
+        await fetch('http://192.168.1.10:3000/placeMedsOrder',{
             method:'POST',
             headers:{
                 Accept: 'application/JSON',
                 'Content-Type': 'application/JSON'
             },
             body: JSON.stringify({
-                
+                "sellerName":manuName,
+                "buyerName":"Nishka",
+                "medicineName":medName,
+                "unit":unit,
+                "cost":medCost
             })
-        })
+        }).then(alert("Order has been placed successfully !! "))
       }
 
     return(
@@ -124,7 +122,7 @@ const RetailerPlaceOrder = () =>{
             </View>
             <View style = {styles.footer}>
                 <View style = {styles.quantity}>
-                    <TextInput style = {{fontSize:13, left:10, top:0, fontWeight:"bold", color:"black"}} keyboardType="numeric" onChangeText={item => setUnit(parseInt(item))}>QTY :  </TextInput>
+                    <TextInput style = {{fontSize:13, left:10, top:0, fontWeight:"bold", color:"black"}} keyboardType="numeric" placeholder='QTY' onChangeText={(quant)=>{setUnit(parseInt(quant,10))}}></TextInput>
                 </View>
                 <TouchableOpacity style = {styles.getPrice} onPress = {() =>{calculatePrice()}} >
                     <Text style = {{fontSize:13, left:15, fontWeight:"bold", top:10, color:"black"}} onPress = {()=>{calculatePrice()}}>SHOW</Text>
@@ -133,7 +131,7 @@ const RetailerPlaceOrder = () =>{
                     <Text style = {{fontSize:13, left:10, fontWeight:"bold", top:10, color:"black"}}>TOTAL PRICE : {totalPrice} </Text>
                 </View>
             </View>
-            <TouchableOpacity style = {styles.placeorder} onPress = {() =>{console.log(totalPrice)}} >
+            <TouchableOpacity style = {styles.placeorder} onPress = {() =>{placeMedsOrder()}} >
                 <Text style = {{fontSize:13, fontWeight:"bold", left:35, top:10, color:"white"}}>PLACE ORDER</Text>
             </TouchableOpacity>
         </View>
