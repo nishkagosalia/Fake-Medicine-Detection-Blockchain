@@ -4,6 +4,8 @@ const hostname = '127.0.0.1';
 const port = 3000;
 const router = express.Router();
 const bodyParser = require('body-parser');
+const fs = require('fs');
+var crypto = require('crypto');
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -30,6 +32,7 @@ async function loginUser(username, password){
     console.log("Login successful");
     app.get('/login', (req,res) => {
       res.send({result:"success",designation:userDetails.designation,name:userDetails.firstName})
+      console.log(userDetails.firstName)
     }) 
   }
   else{
@@ -85,9 +88,13 @@ async function findCurrentId(designationValue){
     let custCount = currentId.Count;
     return custCount;
   }
-
+  else if(designationValue=="Block"){
+    console.log("will find now from db")
+    let currentId = await client.db("PharmaChain").collection("CountDB").findOne({Designation:"Block"});
+    let blockCount = currentId.Count;
+    return blockCount;
+  }
 }
-
 
 async function findLatestMedCount(){
   let medcount = await client.db("PharmaChain").collection("CountDB").findOne({Designation:"Medicine"});
@@ -96,8 +103,14 @@ async function findLatestMedCount(){
   return latestmedcount;
 }
 
+// qr string hash 
+function hashForQR(transactionHash,blockHash){
+  var qrstring=transactionHash+blockHash
+  const hash = crypto.createHash('sha256').update(qrstring).digest('hex')
+  return hash
+}
 
-
+// post function for recieving information from React for login purpose 
 router.post('/hello',async (req,res)=>{
   var username=req.body.username
   var password=req.body.password
@@ -149,8 +162,6 @@ router.post('/register',async(req,res) => {
 
 
 // add medicine to medicineDB
-
-
 router.post('/addMeds',async(req,res) => {
   console.log("entered add meds end point");
   var medicineName = req.body.medicineName;
@@ -170,9 +181,11 @@ router.post('/addMeds',async(req,res) => {
   }).then(console.log("Pushed into LoginReg DB")) 
 })
 
+
+// Find all orders placed by specified manufacturer and which are pending 
 router.post('/getmanorders',async(req,res)=>{
 
-  const query = {sellerName:"Tejanshu",status:"pending"};
+  const query = {status:"pending",sellerName:"Tejanshu"};
   const options = {projection:{}};
   const details = await client.db("PharmaChain").collection("OrderDB").find(query);
   if ((await details.count()) === 0){
@@ -252,4 +265,68 @@ router.post('/placeMedsOrder',async(req,res)=>{
     status:status
   }).then(console.log("Pushed into Order DB")) 
   
+})
+
+
+
+
+// push to transactionDb 
+router.post('/pushtoTransactionDb',async(req,res)=>{
+  var medname=req.body.medicineName
+  var buyer=req.body.buyerName
+  var cost=req.body.cost  
+  var unit=req.body.unit
+  var name=req.body.firstName
+  const currentId = await findCurrentId("Block");
+  var blockid = "B"+(currentId+1);
+  var totalcost= parseInt(unit)*parseInt(cost)
+  fs.readFile('output.txt', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    else{
+      const noSpecialCharacters = data.replace(/[^\w ]/g, '');
+      console.log(noSpecialCharacters)
+      const transHash=noSpecialCharacters.search('transactionHash')
+      const blHash=noSpecialCharacters.search('blockHash')
+      const transactionHash=noSpecialCharacters.substring((transHash+16),(transHash+16+66))
+      const blockHash=noSpecialCharacters.substring((blHash+10),(blHash+10+66))
+      
+      client.db("PharmaChain").collection("TransactionDB").insertOne({
+        medicineName:medname,
+        buyerName:buyer,
+        sellerName:name,
+        blockId:blockid,
+        cost:cost,
+        unit:unit,
+        transactionHash:transactionHash,
+        totalcost:totalcost
+
+      }).then(console.log("Pushed into Transaction DB")) 
+
+      const qrHash=hashForQR(transactionHash,blockHash)
+      client.db("PharmaChain").collection("BlockChainDB").insertOne({
+        blockId:blockid,
+        blockHash:blockHash,
+        transactionHash:transactionHash,
+        qrHash:qrHash
+
+      }).then(console.log("Pushed into Block DB")) 
+
+    }
+  });
+})
+// confirm the order has been placed 
+router.post('/confirmorder',async(req,res)=>{
+  var medname=req.body.medicineName
+  var buyer=req.body.buyerName
+  const filter = { buyerName: buyer, medicineName: medname };
+  const updateDoc = {
+    $set: {
+      status: 'confirm'
+    },
+  };
+
+  await client.db("PharmaChain").collection("OrderDB").updateOne(filter,updateDoc);
+
 })

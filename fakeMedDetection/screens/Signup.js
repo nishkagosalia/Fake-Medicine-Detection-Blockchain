@@ -25,12 +25,12 @@ const Signup = ({navigation}) =>{
 
     const redirection = (designationValue) =>{
         if(designationValue == "Manufacturer"){
-            navigation.navigate("manufacturer");
+            navigation.navigate("manufacturer",{name:firstName});
         }
-        else if(designationValue == "Retailer"){
+        else if(designationValue == "Retailer",{name:firstName}){
             navigation.navigate("retailer");
         }
-        if(designationValue == "Consumer"){
+        if(designationValue == "Consumer",{name:firstName}){
             navigation.navigate("consumer");
         }
     }
@@ -38,7 +38,7 @@ const Signup = ({navigation}) =>{
 
     const Register = async() =>{
         console.log(lastName,designationValue);
-        await fetch('http://192.168.1.10:3000/register',{
+        await fetch('http://192.168.100.40:3000/register',{
             method:'POST',
             headers:{
                 Accept: 'application/JSON',
