@@ -330,3 +330,35 @@ router.post('/confirmorder',async(req,res)=>{
   await client.db("PharmaChain").collection("OrderDB").updateOne(filter,updateDoc);
 
 })
+
+
+// find all transaction data placed by particular manufacturer
+// Find all orders placed by specified manufacturer and which are pending 
+router.post('/gettransactionlist',async(req,res)=>{
+  const name=req.body.name
+  const query = {sellerName:name};
+  const options = {projection:{}};
+  const details = await client.db("PharmaChain").collection("TransactionDB").find(query);
+  if ((await details.count()) === 0){
+    console.log("No Documents were found in TransactionDB !!");
+  }
+  else{
+    const arr=[]
+    const alltransaction = await details.forEach(function(myDoc) { 
+      arr.push({buyerName:myDoc.buyerName,medicineName:myDoc.medicineName,unit:myDoc.unit,totalCost:myDoc.totalcost,blockId:myDoc.blockId}) 
+    });
+    console.log(arr)
+    app.get('/sendalltransaction', (req,res) => {
+      res.send(arr)
+    }) 
+    
+  }
+  
+})
+
+
+router.post('/qrHash',async(req,res)=>{
+  var blockid=req.body.blockId
+  const findQR=await client.db("PharmaChain").collection("BlockChainDB").findOne({blockId:blockid})
+  console.log(findQR.qrHash)
+})
