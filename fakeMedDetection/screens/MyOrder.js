@@ -89,7 +89,7 @@ const MyOrder=()=>{
  }
   return(
     <View style={styles.container}>
-       <View style={styles.header}></View>
+              <View style={styles.header}><Text style={{fontSize:40,color:'white',left:'27%', top: '30%', fontWeight:'bold'}}>My Orders</Text></View>
     <ScrollView contentContainerStyle={{flexGrow:1}}>
     {orderList.map((item)=>{
       return(
