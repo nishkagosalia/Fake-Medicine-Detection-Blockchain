@@ -27,7 +27,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName = "login" screenOptions={{headerMode:'False'}}>
+      <Stack.Navigator initialRouteName = "manufacturerqr" screenOptions={{headerMode:'False'}}>
         <Stack.Screen name="login" component={login}/>
         <Stack.Screen name="Signup" component = {Signup}/>
         <Stack.Screen name="consumer" component={consumer}/>
@@ -39,6 +39,7 @@ const App = () => {
         <Stack.Screen name="retailerplaceorder" component={RetailerPlaceOrder}/>
         <Stack.Screen name="retailertransaction" component={RetailerTransaction}/>
         <Stack.Screen name="manufacturerqr" component={ManufacturerQR}/>
+        
         </Stack.Navigator>
       </NavigationContainer>
   );
