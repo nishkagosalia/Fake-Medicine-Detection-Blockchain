@@ -25,7 +25,7 @@ const ManTransaction=()=>{
   useEffect(()=>{
     getTransactionData()
     async function fetchData() {
-      fetch('http://192.168.45.183:3000/sendalltransaction',{method:'GET',header: {
+      fetch('http://192.168.45.225:3000/sendalltransaction',{method:'GET',header: {
         'Content-Type': 'application/json'
       }})
         .then((response) => response.json())
@@ -42,7 +42,7 @@ const ManTransaction=()=>{
   },[])
 
   const getTransactionData=async()=>{
-    await fetch('http://192.168.45.183:3000/gettransactionlist',{
+    await fetch('http://192.168.45.225:3000/gettransactionlist',{
       method:"POST",
 
       headers: {"Content-Type": "application/json"},
@@ -64,7 +64,7 @@ const ManTransaction=()=>{
                   <View style={styles.listview}> 
                       <Text style={styles.txt} >Medicine Name:  </Text>
                       <Text style={styles.txt}>{item.medicineName}</Text>
-                      <TouchableOpacity style={styles.accept} onPress={()=>navigation.navigate('manufacturerqr',{medname: item.medicineName,buyerName:item.buyerName,cost:item.totalCost,unit:item.unit})}><Text style={styles.btntext}>View QR</Text></TouchableOpacity>
+                      <TouchableOpacity style={styles.accept} onPress={()=>navigation.navigate('manufacturerqr',{medname: item.medicineName,buyerName:item.buyerName,cost:item.totalCost,unit:item.unit,blockID:item.blockId})}><Text style={styles.btntext}>View QR</Text></TouchableOpacity>
                   </View>
                   <View style={styles.listview}> 
                     <Text style={styles.txt}>Buyer Name:  </Text>

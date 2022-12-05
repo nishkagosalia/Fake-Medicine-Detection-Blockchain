@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,9 +18,44 @@ import {createStackNavigator} from '@react-navigation/stack';
 import QRCode from 'react-native-qrcode-svg';
 
 const ManufacturerQR = () =>{
+
+    useEffect(() =>{
+        console.log("i am useeffect");
+          fetchData()
+        },[]
+    )
+
     const navigation=useNavigation();
     const route=useRoute();
+    const medicineName = route.params.medname;
+    const buyerName = route.params.buyerName;
+    const cost = route.params.cost;
+    const unit = route.params.unit;
+    const blockID = route.params.blockID;
+    const [qrhash,setQrHash]=useState('default')
 
+    const fetchData = async() => {
+        console.log("entered fetch data");
+        await fetch('http://192.168.45.225:3000/qrHash',{method:'GET',header: {
+          'Content-Type': 'application/json'
+        }})
+          .then((response) => response.json())
+          .then((responseJson) => {
+            console.log(responseJson)
+            for(let i=0;i<responseJson.length;i++)
+            {
+                if(responseJson[i]==blockID)
+                {
+                    setQrHash(responseJson[i+1])
+                    console.log(responseJson[i+1])
+                    break
+                }
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
 
     return(
         <View style={styles.container}>
@@ -28,7 +63,7 @@ const ManufacturerQR = () =>{
                 <Text style = {styles.titleHeader}>TRANSACTION DETAILS</Text>
             </View>
             <View style = {styles.qrsection}>
-                <QRCode value='hey' size={182}/>
+                <QRCode value={qrhash} size={182}/>
             </View>
             <View style={styles.scanme}>
                 <Text style = {{fontWeight:"bold",fontSize:30,left:"10%",top:"8%",color:"white"}}>SCAN ME</Text>
@@ -38,7 +73,7 @@ const ManufacturerQR = () =>{
                     Medicine Name
                 </Text>
                 <View style = {styles.contentView}>
-                    
+                    <Text style={{fontSize:20,color:'white',left:'10%',top:"10%"}}>{medicineName}</Text>
                 </View>
             </View>
             <View style = {styles.content2}>
@@ -46,7 +81,7 @@ const ManufacturerQR = () =>{
                     Retailer Name
                 </Text>
                 <View style = {styles.contentView2}>
-
+                    <Text style={{fontSize:20,color:'white',left:'10%',top:"10%"}}>{buyerName}</Text>
                 </View>
             </View>
             <View style = {styles.content3}>
@@ -54,7 +89,7 @@ const ManufacturerQR = () =>{
                     Units
                 </Text>
                 <View style = {styles.contentView3}>
-
+                    <Text style={{fontSize:20,color:'white',left:'10%',top:"10%"}}>{unit}</Text>
                 </View>
             </View>
             <View style = {styles.content4}>
@@ -62,7 +97,7 @@ const ManufacturerQR = () =>{
                     Total Cost
                 </Text>
                 <View style = {styles.contentView4}>
-
+                    <Text style={{fontSize:20,color:'white',left:'10%',top:"10%"}}>{cost}</Text>
                 </View>
             </View>
         </View>
