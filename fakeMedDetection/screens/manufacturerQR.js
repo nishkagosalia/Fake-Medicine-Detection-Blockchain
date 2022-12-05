@@ -36,7 +36,7 @@ const ManufacturerQR = () =>{
 
     const fetchData = async() => {
         console.log("entered fetch data");
-        await fetch('http://192.168.45.225:3000/qrHash',{method:'GET',header: {
+        await fetch('http://192.168.1.10:3000/qrHash',{method:'GET',header: {
           'Content-Type': 'application/json'
         }})
           .then((response) => response.json())
