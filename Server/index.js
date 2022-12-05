@@ -356,9 +356,22 @@ router.post('/gettransactionlist',async(req,res)=>{
   
 })
 
+// get hash value from db
+app.get('/qrHash',async(req,res)=>{
+  const query = {blockId:{$ne : null}};
+  const options = {projection:{qrHash:1,blockId:1}};
+  const getallBlocks = await client.db("PharmaChain").collection("BlockChainDB").find(query,options);
+  if((await getallBlocks.count())===0){
+    console.log("No blocks are found");
+  }
+  else{
+    console.log('getallblocks',getallBlocks);
+    const getblocks = [];
+    await getallBlocks.forEach(function(allmyblocks){
+      getblocks.push(allmyblocks.blockId,allmyblocks.qrHash);
+    });
+    console.log(getblocks)
+    res.send(getblocks);
 
-router.post('/qrHash',async(req,res)=>{
-  var blockid=req.body.blockId
-  const findQR=await client.db("PharmaChain").collection("BlockChainDB").findOne({blockId:blockid})
-  console.log(findQR.qrHash)
+  }
 })
