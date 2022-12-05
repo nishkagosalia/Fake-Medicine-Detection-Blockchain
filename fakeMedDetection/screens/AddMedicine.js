@@ -32,7 +32,7 @@ const AddMedicine = () => {
         navigation.navigate("manufacturer",{name:name});
     }
     const addMedsDatabase = async() =>{
-       await fetch('http://192.168.100.40:3000/addMeds',{
+       await fetch('http://192.168.45.183:3000/addMeds',{
             method:'POST',
             headers:{
                 Accept: 'application/JSON',

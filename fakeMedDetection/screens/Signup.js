@@ -38,7 +38,7 @@ const Signup = ({navigation}) =>{
 
     const Register = async() =>{
         console.log(lastName,designationValue);
-        await fetch('http://192.168.100.40:3000/register',{
+        await fetch('http://192.168.45.183:3000/register',{
             method:'POST',
             headers:{
                 Accept: 'application/JSON',

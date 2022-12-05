@@ -20,6 +20,7 @@ import ManTransaction from './screens/ManTransaction.js';
 import MyOrder from './screens/MyOrder.js'
 import RetailerPlaceOrder from './screens/RetailerPlaceOrder.js';
 import RetailerTransaction from './screens/RetailerTransaction.js';
+import ManufacturerQR from './screens/ManufacturerQR.js';
 
 const App = () => {
   const Stack=createStackNavigator()
@@ -37,6 +38,7 @@ const App = () => {
         <Stack.Screen name="myorder" component={MyOrder}/>
         <Stack.Screen name="retailerplaceorder" component={RetailerPlaceOrder}/>
         <Stack.Screen name="retailertransaction" component={RetailerTransaction}/>
+        <Stack.Screen name="manufacturerqr" component={ManufacturerQR}/>
         </Stack.Navigator>
       </NavigationContainer>
   );
