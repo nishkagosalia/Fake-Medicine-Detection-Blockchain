@@ -20,13 +20,14 @@ import ManTransaction from './screens/ManTransaction.js';
 import MyOrder from './screens/MyOrder.js'
 import RetailerPlaceOrder from './screens/RetailerPlaceOrder.js';
 import RetailerTransaction from './screens/RetailerTransaction.js';
+import ManufacturerQR from './screens/ManufacturerQR.js';
 
 const App = () => {
   const Stack=createStackNavigator()
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName = "login" screenOptions={{headerMode:'False'}}>
+      <Stack.Navigator initialRouteName = "manufacturerqr" screenOptions={{headerMode:'False'}}>
         <Stack.Screen name="login" component={login}/>
         <Stack.Screen name="Signup" component = {Signup}/>
         <Stack.Screen name="consumer" component={consumer}/>
@@ -37,6 +38,8 @@ const App = () => {
         <Stack.Screen name="myorder" component={MyOrder}/>
         <Stack.Screen name="retailerplaceorder" component={RetailerPlaceOrder}/>
         <Stack.Screen name="retailertransaction" component={RetailerTransaction}/>
+        <Stack.Screen name="manufacturerqr" component={ManufacturerQR}/>
+        
         </Stack.Navigator>
       </NavigationContainer>
   );
