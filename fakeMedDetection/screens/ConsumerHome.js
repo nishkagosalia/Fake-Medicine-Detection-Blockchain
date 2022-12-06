@@ -23,7 +23,7 @@ const ConsumerHome = () => {
     const [qrvalue, setQrvalue] = useState('');
     const [qrhash,setQrHash]=useState('default')
     const [hashvalues,setHashvalues]=useState([])
-    const [status,setStatus]=useState('')
+    const [status,setStatus]=useState('init')
 
     useEffect(()=>{
       fetchData()
@@ -45,7 +45,7 @@ const ConsumerHome = () => {
 
     const fetchData = async() => {
       console.log("entered fetch data");
-      await fetch('http://192.168.100.40:3000/qrHash',{method:'GET',header: {
+      await fetch('http://192.168.1.10:3000/qrHash',{method:'GET',header: {
         'Content-Type': 'application/json'
       }})
         .then((response) => response.json())
@@ -120,12 +120,14 @@ const ConsumerHome = () => {
                           <TouchableOpacity style={styles.scanme} onPress={()=>{fullqr()}}>
                               <Text style = {{fontWeight:"bold",fontSize:30,left:"4%",top:"8%",color:"white"}}>CLICK TO VERIFY</Text>
                           </TouchableOpacity>
+                          {status.includes('init')? null:(
                           <View style = {styles.result}>
                              {status.includes('verified') ? 
                                 ( <Text style = {styles.textres}> YOUR MEDICINE IS AUTHENTIC  </Text>):
                                 (<Text style = {styles.textres}> YOUR MEDICINE IS FAKE </Text>)}
                              <Text style={styles.textres}>VERIFIED SUCCESSFULLY !!</Text>
                           </View>
+                            )}
 
                     </View>
                   )}
@@ -138,67 +140,65 @@ const ConsumerHome = () => {
 
 }
 
-export default ConsumerHome;
-
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor: '#E0C5FA',
-        flex: 1,
-        flexDirection:'column',
-        
-    },
-    header:{
-        backgroundColor:'#9F4DEA',
-        width:'100%',
-        height: '18%',
-        borderBottomLeftRadius: 90,
-        borderBottomRightRadius: 90,
-        position:'relative',
-        
-    },
-    titleHeader:{
-      fontSize:30,
-      top: '30%',
-      left:'8%',
-      color:'white',
-      fontWeight:"bold"
-    },
-    imageforqr:{
-      width:"50%",
-      height:"25%",
-      borderRadius:2,
-      left:"25%",
-      top:"5%",
-      backgroundColor:"white",
-    },
-    imagerender:{
-      width:"100%",
-      height:"100%"
-    },
-    scanme:{
-      width:"65%",
-      height:"7%",
-      borderWidth:2,
-      left:"17%",
-      top:"8%",
-      borderRadius:15,
-      borderColor:"#DF73FF",
-      backgroundColor:"#DF73FF"
+  container:{
+      backgroundColor: '#E0C5FA',
+      flex: 1,
+      flexDirection:'column',
   },
-  result:{
-    width:"65%",
-    height:"25%",
-    borderRadius:15,
-    borderColor:"#9C51B6",
-    backgroundColor:"#9C51B6",
-    left:"17%",
-    top:"12%"
-  },  
-  textres:{
+  header:{
+      backgroundColor:'#9F4DEA',
+      width:'100%',
+      height: '18%',
+      borderBottomLeftRadius: 90,
+      borderBottomRightRadius: 90,
+      position:'relative',
+  },
+  titleHeader:{
+    fontSize:30,
+    top: '30%',
+    left:'8%',
     color:'white',
-    fontSize:28,
-    left:'3%',
-    marginBottom:'8%',
+    fontWeight:"bold"
   },
+  imageforqr:{
+    width:"50%",
+    height:"25%",
+    borderRadius:2,
+    left:"25%",
+    top:"5%",
+    backgroundColor:"white",
+  },
+  imagerender:{
+    width:"100%",
+    height:"100%"
+  },
+  scanme:{
+    width:"65%",
+    height:"7%",
+    borderWidth:2,
+    left:"17%",
+    top:"8%",
+    borderRadius:15,
+    borderColor:"#DF73FF",
+    backgroundColor:"#DF73FF"
+},
+result:{
+  width:"65%",
+  height:"25%",
+  borderRadius:15,
+  borderColor:"#9C51B6",
+  backgroundColor:"#9C51B6",
+  left:"17%",
+  top:"12%"
+},
+textres:{
+  color:'white',
+  fontSize:28,
+  left:'3%',
+  marginBottom:'8%',
+},
 })
+
+export default ConsumerHome;
 
