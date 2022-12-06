@@ -28,7 +28,7 @@ const MyOrder=()=>{
   useEffect(() => {
     getorderdetails()
     async function fetchData() {
-      fetch('http://192.168.1.10:3000/sendmanorders',{method:'GET',header: {
+      fetch('http://192.168.100.40:3000/sendmanorders',{method:'GET',header: {
         'Content-Type': 'application/json'
       }})
         .then((response) => response.json())
@@ -45,7 +45,7 @@ const MyOrder=()=>{
 
 
   const getorderdetails=async()=>{
-    await fetch('http://192.168.1.10:3000/getmanorders',{
+    await fetch('http://192.168.100.40:3000/getmanorders',{
       method:"POST",
 
       headers: {"Content-Type": "application/json"},
@@ -58,7 +58,7 @@ const MyOrder=()=>{
 
 
   const confirmOrder=async(medicineName,buyerName)=>{
-    await fetch('http://192.168.1.10:3000/confirmorder',{
+    await fetch('http://192.168.100.40:3000/confirmorder',{
       method:"POST",
 
       headers: {"Content-Type": "application/json"},
@@ -72,7 +72,7 @@ const MyOrder=()=>{
 
  const generate=async(medicineName,buyerName,unit,cost)=>
  {
-    await fetch('http://192.168.1.10:3000/pushtoTransactionDb',{
+    await fetch('http://192.168.100.40:3000/pushtoTransactionDb',{
         method:"POST",
 
         headers: {"Content-Type": "application/json"},
