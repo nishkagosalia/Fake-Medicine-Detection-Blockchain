@@ -375,3 +375,28 @@ app.get('/qrHash',async(req,res)=>{
 
   }
 })
+
+// get retailer all orders 
+
+router.post('/getretailerallorders',async(req,res)=>{
+  const name=req.body.name
+  const query = {buyerName:name};
+  const options = {projection:{sellerName:1,medicineName:1,unit:1,totalCost:1,status:1}};
+  const details = await client.db("PharmaChain").collection("OrderDB").find(query,options);
+  if ((await details.count()) === 0){
+    console.log("No Documents were found in OrderDB !!");
+  }
+  else{
+    const arr=[]
+    const allrettransaction = await details.forEach(function(myDoc) { 
+      arr.push({sellerName:myDoc.sellerName,medicineName:myDoc.medicineName,unit:myDoc.unit,totalCost:myDoc.totalCost,status:myDoc.status}) 
+    });
+    console.log(arr)
+    app.get('/retailerall', (req,res) => {
+      res.send(arr)
+    }) 
+    
+  }
+  
+})
+

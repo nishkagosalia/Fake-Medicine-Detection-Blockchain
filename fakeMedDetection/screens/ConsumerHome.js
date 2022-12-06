@@ -45,7 +45,7 @@ const ConsumerHome = () => {
 
     const fetchData = async() => {
       console.log("entered fetch data");
-      await fetch('http://192.168.100.40:3000/qrHash',{method:'GET',header: {
+      await fetch('http://192.168.1.10:3000/qrHash',{method:'GET',header: {
         'Content-Type': 'application/json'
       }})
         .then((response) => response.json())
@@ -137,6 +137,65 @@ const ConsumerHome = () => {
     )
 
 }
+
+const styles = StyleSheet.create({
+    container:{
+        backgroundColor: '#E0C5FA',
+        flex: 1,
+        flexDirection:'column',
+        
+    },
+    header:{
+        backgroundColor:'#9F4DEA',
+        width:'100%',
+        height: '18%',
+        borderBottomLeftRadius: 90,
+        borderBottomRightRadius: 90,
+        position:'relative',
+        
+    },
+    titleHeader:{
+      fontSize:30,
+      top: '30%',
+      left:'8%',
+      color:'white',
+      fontWeight:"bold"
+    },
+    imageforqr:{
+      width:"50%",
+      height:"25%",
+      borderRadius:2,
+      left:"25%",
+      top:"5%",
+      backgroundColor:"white",
+    },
+    imagerender:{
+      width:"100%",
+      height:"100%"
+    },
+    scanme:{
+      width:"65%",
+      height:"7%",
+      borderWidth:2,
+      left:"17%",
+      top:"8%",
+      borderRadius:15,
+      borderColor:"#DF73FF",
+      backgroundColor:"#DF73FF"
+  },
+  result:{
+    width:"65%",
+    height:"25%",
+    borderRadius:15,
+    borderColor:"#9C51B6",
+    backgroundColor:"#9C51B6",
+    left:"17%",
+    top:"12%"
+  },  
+  textres:{
+
+  },
+})
 
 export default ConsumerHome;
 
