@@ -25,7 +25,7 @@ const ManTransaction=()=>{
   useEffect(()=>{
     getTransactionData()
     async function fetchData() {
-      fetch('http://192.168.1.10:3000/sendalltransaction',{method:'GET',header: {
+      fetch('http://192.168.100.40:3000/sendalltransaction',{method:'GET',header: {
         'Content-Type': 'application/json'
       }})
         .then((response) => response.json())
@@ -42,7 +42,7 @@ const ManTransaction=()=>{
   },[])
 
   const getTransactionData=async()=>{
-    await fetch('http://192.168.1.10:3000/gettransactionlist',{
+    await fetch('http://192.168.100.40:3000/gettransactionlist',{
       method:"POST",
 
       headers: {"Content-Type": "application/json"},

@@ -37,7 +37,7 @@ const RetailerPlaceOrder = () =>{
 
     const getMeds = async() =>{
       console.log("entered getmeds in react");
-      const medicinearray=await fetch('http://192.168.1.10:3000/medslist',{method:'GET'})
+      const medicinearray=await fetch('http://192.168.100.40:3000/medslist',{method:'GET'})
       const resultmedslist = await medicinearray.json();
       for (var i=0;i<resultmedslist.length;i++){
         jsonarray.push({medicineName:resultmedslist[i]})
@@ -47,7 +47,7 @@ const RetailerPlaceOrder = () =>{
 
      const getAllMedicineData = async() =>{
       console.log("Retrieve all medicine data , called in react native");
-      const allMedData = await fetch('http://192.168.1.10:3000/getAllMedsDB',{method:'GET'});
+      const allMedData = await fetch('http://192.168.100.40:3000/getAllMedsDB',{method:'GET'});
       console.log(allMedData);
       const jsonallMed = await allMedData.json();
       console.log(jsonallMed);
@@ -75,7 +75,7 @@ const RetailerPlaceOrder = () =>{
 
       const placeMedsOrder = async() =>{
         console.log("before we push",unit);
-        await fetch('http://192.168.1.10:3000/placeMedsOrder',{
+        await fetch('http://192.168.100.40:3000/placeMedsOrder',{
             method:'POST',
             headers:{
                 Accept: 'application/JSON',
