@@ -9,6 +9,7 @@ import {
   useColorScheme,
   View,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
@@ -21,24 +22,27 @@ const Signup = ({navigation}) =>{
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [city, setCity] = useState('');
-    const [designationValue,setDesignationValue] = useState('');
+    const [designationValue,setDesignationValue] = useState('Manufacturer');
 
     const redirection = (designationValue) =>{
         if(designationValue == "Manufacturer"){
+            Alert.alert("Your account has been created successfully !!");
             navigation.navigate("manufacturer",{name:firstName});
         }
-        else if(designationValue == "Retailer",{name:firstName}){
-            navigation.navigate("retailer");
+        else if(designationValue == "Retailer"){
+            Alert.alert("Your account has been created successfully !!");
+            navigation.navigate("retailer",{name:firstName});
         }
-        if(designationValue == "Consumer",{name:firstName}){
-            navigation.navigate("consumer");
+        if(designationValue == "Consumer"){
+            Alert.alert("Your account has been created successfully !!");
+            navigation.navigate("consumer",{name:firstName});
         }
     }
 
 
     const Register = async() =>{
         console.log(lastName,designationValue);
-        await fetch('http://192.168.100.40:3000/register',{
+        await fetch('http://192.168.1.10:3000/register',{
             method:'POST',
             headers:{
                 Accept: 'application/JSON',
