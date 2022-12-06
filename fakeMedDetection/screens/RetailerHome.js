@@ -31,7 +31,7 @@ const RetailerHome = () =>{
            </TouchableOpacity>
 
            <View style={styles.field}></View>
-           <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('retailertransaction')}}>
+           <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('retailertransaction',{name:name})}}>
                <Image source={require('../images/transaction.png')} style={styles.transimg}></Image>
                <Text style={styles.ordertxt}>Transactions</Text>
            </TouchableOpacity>
