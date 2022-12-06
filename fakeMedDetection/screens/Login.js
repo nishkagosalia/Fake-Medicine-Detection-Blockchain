@@ -54,7 +54,7 @@ const Login=({navigation})=>{
     }
 
     const loginuser=async()=>{
-        const allLoginData = await fetch('http://192.168.100.40:3000/optimizelogin',{method:"GET"});
+        const allLoginData = await fetch('http://192.168.1.10:3000/optimizelogin',{method:"GET"});
         const jsonAllLoginData = await allLoginData.json()
         setJsonState(jsonAllLoginData);
     }

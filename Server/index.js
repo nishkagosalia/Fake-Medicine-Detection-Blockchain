@@ -147,7 +147,10 @@ router.post('/register',async(req,res) => {
     const currentId = await findCurrentId(designationValue);
     var userId = "C"+(currentId+1);
   }
-
+  const querytoupdate = {"Designation":designationValue}
+  const currentId = await findCurrentId(designationValue);
+  const optionstoupdate = {$set:{Count:currentId+1}}
+  await client.db("PharmaChain").collection("CountDB").updateOne(querytoupdate,optionstoupdate)
   await client.db("PharmaChain").collection("LoginReg").insertOne({
     firstName:firstName,
     blockchainAccountId:blockchainAccountId,
@@ -171,12 +174,14 @@ router.post('/addMeds',async(req,res) => {
   var medLatestCount = await findLatestMedCount();
   var productId = "MED"+(medLatestCount+1);
 
-
+  const querytoupdate = {"Designation":"Medicine"}
+  const optionstoupdate = {$set:{Count:medLatestCount+1}}
+  await client.db("PharmaChain").collection("CountDB").updateOne(querytoupdate,optionstoupdate)
   await client.db("PharmaChain").collection("MedicineDB").insertOne({
     medicineName:medicineName,
     expiryDate:expiryDate,
-    userName:"Tejanshu",
-    cost:cost,
+    ManufacturerName:userName,
+    cost:parseInt(cost),
     productId:productId
   }).then(console.log("Pushed into LoginReg DB")) 
 })
@@ -280,6 +285,9 @@ router.post('/pushtoTransactionDb',async(req,res)=>{
   const currentId = await findCurrentId("Block");
   var blockid = "B"+(currentId+1);
   var totalcost= parseInt(unit)*parseInt(cost)
+  const querytoupdate = {"Designation":"Block"}
+  const optionstoupdate = {$set:{Count:currentId+1}}
+  await client.db("PharmaChain").collection("CountDB").updateOne(querytoupdate,optionstoupdate)
   fs.readFile('output.txt', 'utf8', (err, data) => {
     if (err) {
       console.error(err);

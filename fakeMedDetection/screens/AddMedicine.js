@@ -29,10 +29,11 @@ const AddMedicine = () => {
     const [cost,setCost] = useState('');
     const [open, setOpen] = useState(false);
     const navigateToHome = () =>{
+        Alert.alert("Your medicine has been listed successfuly !!");
         navigation.navigate("manufacturer",{name:name});
     }
     const addMedsDatabase = async() =>{
-       await fetch('http://192.168.100.40:3000/addMeds',{
+       await fetch('http://192.168.1.10:3000/addMeds',{
             method:'POST',
             headers:{
                 Accept: 'application/JSON',
@@ -41,7 +42,7 @@ const AddMedicine = () => {
             body: JSON.stringify({
                 "medicineName":medicineName,
                 "expiryDate":expiryDate,
-                "userName":"Tejanshu",
+                "userName":name,
                 "cost":cost,
             })
         })

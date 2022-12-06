@@ -25,7 +25,7 @@ const RetailerHome = () =>{
            <View style={styles.header}>
                <Text style={styles.welcomtxt}>Welcome {name}!!</Text>
            </View>
-           <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('retailerplaceorder')}}>
+           <TouchableOpacity style={styles.fields} onPress={()=>{navigation.navigate('retailerplaceorder',{name:name})}}>
              <Image source={require('../images/placeOrder.png')} style={styles.addimg}></Image>
              <Text style={styles.txt}>Place order</Text>
            </TouchableOpacity>
